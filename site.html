@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>БУНКЕР 2026 — Постапокалиптическая визуальная новелла</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-red: #e94560;
+            --neon-purple: #8a2be2;
+            --dark-bg: #0a0a0f;
+            --darker: #050508;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Анимированный фон */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark-bg) 50%, #0f0f1a 100%);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Шапка с глитч-эффектом */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+
+        .glitch {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(48px, 10vw, 96px);
+            font-weight: 900;
+            color: var(--neon-red);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            position: relative;
+            text-shadow: 
+                0 0 10px rgba(233, 69, 96, 0.8),
+                0 0 20px rgba(233, 69, 96, 0.6),
+                0 0 40px rgba(233, 69, 96, 0.4);
+            animation: glitch-skew 4s infinite;
+        }
+
+        .subtitle {
+            font-size: clamp(16px, 3vw, 24px);
+            color: var(--neon-purple);
+            letter-spacing: 12px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        /* Основной контент */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin: 60px 0;
+        }
+
+        .description {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 60px rgba(233, 69, 96, 0.1);
+        }
+
+        .description h2 {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-red);
+            font-size: 28px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .description p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        /* Фичи */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            background: rgba(233, 69, 96, 0.05);
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-red);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: var(--neon-red);
+            font-weight: 600;
+        }
+
+        /* Кнопка */
+        .play-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .play-button {
+            display: inline-block;
+            padding: 25px 80px;
+            background: linear-gradient(135deg, var(--neon-red) 0%, #dc2626 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 
+                0 10px 40px rgba(233, 69, 96, 0.4),
+                0 0 80px rgba(233, 69, 96, 0.2);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .play-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 15px 50px rgba(233, 69, 96, 0.6),
+                0 0 100px rgba(233, 69, 96, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Скриншоты/превью */
+        .preview {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--neon-red);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 60px rgba(233, 69, 96, 0.2);
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-frame::before {
+            content: '🎮 ИГРОВОЙ ИНТЕРФЕЙС';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-red);
+            letter-spacing: 3px;
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(233, 69, 96, 0.3);
+            color: #666;
+            font-size: 14px;
+        }
+
+        footer strong {
+            color: var(--neon-red);
+            font-family: 'Orbitron', monospace;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Анимации */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes glitch-skew {
+            0%, 100% { transform: skew(0deg); }
+            10% { transform: skew(-2deg); }
+            20% { transform: skew(2deg); }
+            30% { transform: skew(0deg); }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+    <div class="scanlines"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="БУНКЕР 2026">БУНКЕР 2026</h1>
+            <p class="subtitle">Постапокалиптическая визуальная новелла</p>
+        </header>
+
+        <div class="content">
+            <div class="description">
+                <h2>📖 О ИГРЕ</h2>
+                <p>
+                    2026 год. Ядерная война уничтожила цивилизацию. Вы просыпаетесь в бункере №17 
+                    без памяти о прошлом. Но правда сложнее — вы создатель этого эксперимента. 
+                    Вы сами стёрли себе память.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">📅</span>
+                        <div class="feature-text">60 дней выживания</div>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🎭</span>
+                        <div class="feature-text">21 сюжетная линия</div>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🎯</span>
+                        <div class="feature-text">10 концовок</div>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🤖</span>
+                        <div class="feature-text">AI-персонажи</div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 25px; font-style: italic; color: #888;">
+                    💡 <strong>Совет:</strong> Каждый выбор имеет последствия. 
+                    Сохраняйте рассудок, управляйте ресурсами и раскройте правду о Проекте Ковчег.
+                </p>
+            </div>
+
+            <div class="preview">
+                <div class="preview-frame"></div>
+            </div>
+        </div>
+
+        <div class="play-section">
+            <a href="index.html" class="play-button">🎮 НАЧАТЬ ИГРУ</a>
+            <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                Игра работает прямо в браузере • Не требует установки
+            </p>
+        </div>
+
+        <footer>
+            <p><strong>© 2026 BUNKER CORE</strong></p>
+            <p>Глубокий подземный уровень, Сектор 7<br>
+            КОРПОРАЦИЯ БАНКЕР КОР. ВСЕ ПРАВА ЗАЩИЩЕНЫ</p>
+        </footer>
+    </div>
+
+    <script>
+        // Анимация частиц
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = Math.random() > 0.5 ? '#e94560' : '#8a2be2';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = 'rgba(233, 69, 96, 0.1)';
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
