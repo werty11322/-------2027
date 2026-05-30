@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бункер 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(233,69,96,0.5);
+            color: #e94560;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 20px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .fullscreen-btn:hover {
+            background: rgba(233,69,96,0.3);
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+    <button id="fullscreen-btn" class="fullscreen-btn" title="Полноэкранный режим">⛶</button>
+    
+    <div id="фон-локации"></div>
+    <div id="виньетка"></div>
+
+    <!-- ЭКРАН ОПИСАНИЯ -->
+    <div id="экран-описания">
+        <div class="контент-описания">
+            <h1 class="заголовок-игры">🏭 БУНКЕР 2026</h1>
+            <p class="подзаголовок">Постапокалиптическая визуальная новелла</p>
+
+            <div class="секция-описания">
+                <h2>📖 О ИГРЕ</h2>
+                <p>2026 год. Ядерная война уничтожила цивилизацию. Вы просыпаетесь в бункере №17 без памяти о прошлом. Но правда сложнее — вы создатель этого эксперимента. Вы сами стёрли себе память.</p>
+                <p style="color:#888;font-size:14px">60 дней выживания · 21 сюжетная линия · 10 концовок · AI-персонажи</p>
+            </div>
+
+            <button id="кнопка-старт" class="кнопка-старт">🚀 НАЧАТЬ ИГРУ</button>
+        </div>
+    </div>
+
+    <!-- ПАНЕЛИ -->
+    <div id="статус-панель" style="display:none;">
+        <h3>📊 Статус</h3>
+        <div id="блок-здоровье">❤️ <span id="здоровье-знач">100</span></div>
+        <div id="блок-рассудок">🧠 <span id="рассудок-знач">100</span></div>
+        <div id="блок-еда">🍖 <span id="еда-знач">100</span></div>
+        <div id="блок-вода">💧 <span id="вода-знач">80</span></div>
+        <div id="блок-энергия">⚡ <span id="энергия-знач">100</span></div>
+        <div id="блок-день">📅 <span id="день-знач">1</span></div>
+        <div id="блок-репутация">⭐ <span id="репутация-знач">0</span></div>
+        <div id="время-суток">☀️ День</div>
+    </div>
+
+    <div id="инвентарь-панель" style="display:none;">
+        <h3>🎒 Инвентарь</h3>
+        <div id="инвентарь">пусто</div>
+        <button id="кнопка-рестарт" style="margin-top:10px;width:100%;background:rgba(233,69,96,0.15);border:1px solid rgba(233,69,96,0.4);color:#e94560;padding:7px 10px;border-radius:7px;cursor:pointer;font-size:12px;letter-spacing:1px;" title="Начать игру заново">🔄 НАЧАТЬ СНАЧАЛА</button>
+    </div>
+
+    <!-- ИГРОВАЯ ОБЛАСТЬ -->
+    <div id="игра" style="display:none;">
+        <div id="диалог-контейнер">
+            <div id="диалог">
+                <p id="текст-диалога">Загрузка...</p>
+            </div>
+        </div>
+        <div id="кнопки-диалога"></div>
+    </div>
+
+    <div id="слой-спрайтов">
+        <img id="спрайт-персонажа" src="" alt="">
+    </div>
+
+    <div id="нпс-панель" style="display:none;cursor:pointer;" title="Нажми чтобы поговорить с НПС">
+        <div>👥 В бункере</div>
+        <div id="нпс-список"></div>
+    </div>
+
+    <div id="прогресс-дней"></div>
+    <div id="таймер-напряжения" style="display:none;"></div>
+
+    <!-- ЭКРАН ЗАГРУЗКИ (скрыт изначально, показывается при старте) -->
+    <div id="экран-загрузки" style="display:none;">
+        <div class="загрузка-заголовок">БУНКЕР 2026</div>
+        <div class="загрузка-бар-обёртка">
+            <div class="загрузка-бар" id="загрузка-бар"></div>
+        </div>
+        <div class="загрузка-текст" id="загрузка-текст">ИНИЦИАЛИЗАЦИЯ...</div>
+    </div>
+
+    <!-- СКРИПТЫ — порядок важен! -->
+    <script src="ai.js"></script>
+    <script src="achievements.js"></script>
+    <script src="game.js"></script>
+    <script src="game2.js"></script>
+    <script src="init.js"></script>
+</body>
+</html>

@@ -1,0 +1,811 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #000000;
+    color: #e0e0e0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ФОН ЛОКАЦИИ */
+#фон-локации {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    transition: opacity 0.8s ease, filter 1s ease;
+}
+
+/* ВИНЬЕТКА */
+#виньетка {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ============================================
+   ЭКРАН ОПИСАНИЯ ИГРЫ
+   ============================================ */
+#экран-описания {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 40px 20px;
+}
+
+.контент-описания {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(20,20,20,0.98) 0%, rgba(30,30,30,0.95) 100%);
+    padding: 50px;
+    border-radius: 20px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+    box-shadow: 0 0 60px rgba(233, 69, 96, 0.2);
+}
+
+.заголовок-игры {
+    font-size: 48px;
+    color: #e94560;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    letter-spacing: 3px;
+}
+
+.подзаголовок {
+    text-align: center;
+    color: #888;
+    font-size: 20px;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.секция-описания {
+    margin-bottom: 40px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border-left: 4px solid #e94560;
+}
+
+.секция-описания h2 {
+    color: #e94560;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(233, 69, 96, 0.3);
+    padding-bottom: 10px;
+}
+
+.секция-описания p {
+    line-height: 1.8;
+    color: #c0c0c0;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.список-задач, .список-концовок {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.список-задач li, .список-концовок li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    line-height: 1.6;
+    color: #d0d0d0;
+}
+
+.список-задач li:last-child, .список-концовок li:last-child {
+    border-bottom: none;
+}
+
+.сетка-ресурсов {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.ресурс-инфо {
+    background: rgba(233, 69, 96, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ресурс-инфо .иконка {
+    font-size: 24px;
+}
+
+.кнопка-старт {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto 20px;
+    padding: 25px 50px;
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #e94560 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 40px rgba(233, 69, 96, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.кнопка-старт:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(233, 69, 96, 0.6);
+    background: linear-gradient(135deg, #ff5775 0%, #e94560 100%);
+}
+
+.кнопка-старт:active {
+    transform: translateY(-2px);
+}
+
+.подсказка-управления {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+/* ============================================
+   ПАНЕЛИ СТАТУСА И ИНВЕНТАРЯ
+   ============================================ */
+#инвентарь-панель, #статус-панель {
+    position: fixed;
+    top: 20px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+#инвентарь-панель {
+    right: 20px;
+    top: 60px;  /* <-- ДОБАВЬ ЭТУ СТРОКУ (сдвигает панель вниз) */
+    min-width: 180px;
+    border-color: rgba(233, 69, 96, 0.4);
+}
+#статус-панель {
+    /* Перемещаем наверх и растягиваем на всю ширину */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    
+    /* Убираем скругления углов и лишние границы */
+    min-width: unset;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    
+    /* Выстраиваем элементы в строку */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    padding: 6px 12px;
+    z-index: 200;
+    
+    /* Твоя фиолетовая обводка остается */
+    border-color: rgba(138, 43, 226, 0.4);
+}
+
+/* Делаем иконки и цифры компактнее для верхней панели */
+#статус-панель > div {
+    margin: 0;
+    font-size: 13px;
+    gap: 4px;
+}
+
+/* Скрываем надпись "День", так как она занимает много места в строке */
+#время-суток {
+    display: none;
+}
+
+#инвентарь-панель h3, #статус-панель h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #e94560;
+}
+
+#инвентарь {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.предмет {
+    background: rgba(233, 69, 96, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    border: 1px solid rgba(233, 69, 96, 0.5);
+}
+
+#статус-панель > div {
+    margin: 8px 0;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+#блок-здоровье { color: #e94560; }
+#блок-рассудок { color: #8a2be2; }
+#блок-еда      { color: #ffa500; }
+#блок-вода     { color: #00bfff; }
+#блок-энергия  { color: #ffd700; }
+#блок-день     { color: #9370db; }
+#блок-репутация{ color: #ffd700; }
+
+/* ============================================
+   КОНТЕЙНЕР ИГРЫ
+   ============================================ */
+#игра {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    padding-top: 50px;
+    padding-bottom: 80px; /* место для нижней панели */
+}
+
+#диалог-контейнер {
+    margin-bottom: 30px;
+}
+
+#диалог {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 30px 40px;
+    border-radius: 12px;
+    font-size: 20px;
+    line-height: 1.8;
+    border: none;
+    backdrop-filter: blur(3px);
+    cursor: pointer;
+}
+
+#текст-диалога {
+    color: #e0e0e0;
+    min-height: 60px;
+}
+
+.печатная-машинка {
+    animation: появление 0.3s ease-out;
+}
+
+@keyframes появление {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   КНОПКИ ВЫБОРА
+   ============================================ */
+#кнопки-диалога {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* ВАЖНО: НЕТ opacity:0 здесь — анимацией управляет JS */
+.кнопка-выбора {
+    background: transparent;
+    border: none;
+    border-left: 2px solid rgba(255,255,255,0.18);
+    color: rgba(220,220,220,0.9);
+    padding: 13px 20px;
+    font-size: 17px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s, opacity 0.3s;
+    text-align: left;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    letter-spacing: 0.3px;
+}
+
+.кнопка-выбора.видимая {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.кнопка-выбора:hover {
+    background: transparent;
+    border-color: #e94560;
+    color: #fff;
+    transform: translateX(6px);
+    box-shadow: none;
+}
+
+.кнопка-выбора:active {
+    transform: translateX(6px) scale(0.99);
+    background: transparent;
+}
+
+.кнопка-выбора:disabled {
+    opacity: 0.25 !important;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Скрытые ветки — фиолетовая обводка */
+.кнопка-скрытая {
+    border-color: rgba(138, 43, 226, 0.6) !important;
+}
+.кнопка-скрытая:hover {
+    background: rgba(138, 43, 226, 0.15) !important;
+}
+
+/* ============================================
+   АНИМАЦИИ
+   ============================================ */
+@keyframes мигание {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+@keyframes глитч {
+    0%, 100% { transform: translate(0); }
+    20%  { transform: translate(-3px, 1px); filter: hue-rotate(90deg); }
+    40%  { transform: translate(3px, -1px); }
+    60%  { transform: translate(-2px, 2px); filter: hue-rotate(-90deg); }
+    80%  { transform: translate(2px, -2px); }
+}
+
+@keyframes вспышка-крови {
+    0%   { box-shadow: inset 0 0 0px   rgba(180,0,0,0); }
+    30%  { box-shadow: inset 0 0 80px  rgba(180,0,0,0.5); }
+    100% { box-shadow: inset 0 0 0px   rgba(180,0,0,0); }
+}
+
+@keyframes тряска-экрана {
+    0%, 100% { transform: translate(0); }
+    25%  { transform: translate(-4px,  2px); }
+    50%  { transform: translate( 4px, -2px); }
+    75%  { transform: translate(-2px,  4px); }
+}
+
+.глитч-тяжёлый #диалог        { animation: глитч 0.4s infinite; }
+.глитч-тяжёлый #кнопки-диалога{ animation: глитч 0.6s infinite; }
+.глитч-тяжёлый #статус-панель  { animation: глитч 0.8s infinite; }
+
+.урон-анимация  { animation: вспышка-крови 0.6s ease; }
+.тряска-экрана  { animation: тряска-экрана 0.4s ease; }
+
+/* ============================================
+   КОНЦОВКИ — цветовые наложения на body
+   ============================================ */
+
+/* Смерть / безумие — красный оттенок */
+body.концовка-смерть {
+    background: #0a0000 !important;
+}
+body.концовка-смерть #виньетка {
+    background: radial-gradient(circle at center, transparent 20%, rgba(80,0,0,0.7) 100%);
+}
+body.концовка-смерть #диалог {
+    border-color: rgba(233, 69, 96, 0.5);
+    background: rgba(30, 0, 0, 0.75);
+    animation: вспышка-крови 2s ease infinite;
+}
+
+/* Успех / спасение — зелёный оттенок */
+body.концовка-успех {
+    background: #00080a !important;
+}
+body.концовка-успех #виньетка {
+    background: radial-gradient(circle at center, transparent 20%, rgba(0,40,20,0.6) 100%);
+}
+body.концовка-успех #диалог {
+    border-color: rgba(74, 222, 128, 0.4);
+    background: rgba(0, 20, 10, 0.75);
+    box-shadow: 0 0 40px rgba(74, 222, 128, 0.1);
+}
+
+/* ============================================
+   СЛОЙ СПРАЙТОВ — правый нижний угол
+   ============================================ */
+#слой-спрайтов {
+    position: fixed;
+    bottom: 0;
+    right: 3%;
+    width: 180px;
+    height: 320px;
+    pointer-events: none;
+    z-index: 4;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#спрайт-персонажа {
+    max-height: 300px;
+    max-width: 170px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    /* Убираем белый фон JPEG через CSS blend */
+    mix-blend-mode: multiply;
+    filter: contrast(1.08) brightness(0.95);
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 1100px) {
+    #слой-спрайтов {
+        right: 1%;
+        width: 200px;
+        height: 360px;
+    }
+    #спрайт-персонажа {
+        max-height: 340px;
+        max-width: 190px;
+    }
+}
+
+/* ============================================
+   ФОНОВЫЕ СОБЫТИЯ
+   ============================================ */
+.фон-событие {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.4);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-style: italic;
+    z-index: 150;
+    opacity: 0;
+    transition: all 0.8s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.фон-событие.видимый {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   УВЕДОМЛЕНИЯ
+   ============================================ */
+.уведомление {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0, 0, 0, 0.85);
+    color: #e0e0e0;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+    max-width: 80%;
+    text-align: center;
+}
+
+.уведомление.видимый {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* NPC-записи */
+.нпс-запись {
+    font-size: 13px;
+    color: #ccc;
+    padding: 2px 0;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+/* Планшеты и маленькие ноутбуки */
+@media (max-width: 1024px) {
+    #игра { max-width: 100%; padding: 15px; padding-top: 140px; }
+    #слой-спрайтов { width: 200px; height: 360px; right: 1%; }
+    #спрайт-персонажа { max-height: 340px; max-width: 190px; }
+}
+
+/* Мобильные */
+@media (max-width: 768px) {
+    /* Описание игры */
+    .контент-описания { padding: 20px 15px; }
+    .заголовок-игры   { font-size: 28px; letter-spacing: 1px; }
+    .подзаголовок     { font-size: 16px; }
+    .секция-описания  { padding: 15px; margin-bottom: 20px; }
+    .сетка-ресурсов   { grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    /* Панели — горизонтальная полоска сверху */
+    #статус-панель {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        min-width: unset;
+        border-radius: 0;
+        border-left: none; border-right: none; border-top: none;
+        padding: 6px 12px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+        z-index: 200;
+    }
+    #статус-панель > div {
+        margin: 0;
+        font-size: 13px;
+        gap: 4px;
+    }
+    #время-суток { display: none; }
+
+    #инвентарь-панель {
+        position: fixed;
+        top: auto;
+        bottom: 70px;
+        right: 0;
+        left: auto;
+        min-width: unset;
+        max-width: 160px;
+        border-radius: 10px 0 0 10px;
+        border-right: none;
+        padding: 10px;
+        font-size: 12px;
+    }
+    #инвентарь-панель h3 { font-size: 13px; margin-bottom: 6px; }
+
+    /* Игровая область */
+    #игра {
+        padding: 8px;
+        padding-top: 70px;
+        max-width: 100%;
+    }
+
+    #диалог {
+        padding: 18px;
+        font-size: 15px;
+        line-height: 1.7;
+        border-radius: 10px;
+    }
+
+    .кнопка-выбора {
+        padding: 14px 16px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    #кнопки-диалога { gap: 10px; margin-top: 15px; }
+
+    /* Спрайты — скрываем на мобиле */
+    #слой-спрайтов { display: none; }
+
+    /* Панель инструментов — горизонтально снизу */
+    #панель-инструментов {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        flex-direction: row !important;
+        gap: 6px !important;
+        padding: 8px;
+        background: rgba(0,0,0,0.85);
+        border-top: 1px solid rgba(255,255,255,0.1);
+        z-index: 200;
+        justify-content: center;
+    }
+    #панель-инструментов button,
+    #панель-инструментов div {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Таймер — сверху по центру на мобиле */
+    #таймер-напряжения {
+        right: auto !important;
+        top: 60px !important;
+        left: 50% !important;
+        transform: translate(-50%, 0) !important;
+    }
+
+    /* Фоновые события */
+    .фон-событие { font-size: 11px; padding: 4px 12px; top: 55px; }
+
+    /* Уведомления */
+    .уведомление { bottom: 70px; font-size: 13px; max-width: 90%; }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 380px) {
+    .заголовок-игры { font-size: 22px; }
+    #диалог { padding: 12px; font-size: 14px; }
+    .кнопка-выбора { padding: 12px; font-size: 14px; }
+}
+
+/* ============================================
+   СКРЫТЬ ЭКРАН ОПИСАНИЯ ПОСЛЕ СТАРТА
+   ============================================ */
+#экран-описания.скрыть {
+    display: none;
+}
+
+/* ============================================
+   ПСЕВДО-ПОЛНОЭКРАННЫЙ РЕЖИМ
+   ============================================ */
+body.pseudo-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    background: #000 !important;
+    overflow: hidden !important;
+}
+body.pseudo-fullscreen #экран-описания,
+body.pseudo-fullscreen #игра {
+    width: 100% !important;
+    max-width: none !important;
+}
+.fullscreen-btn {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 100000 !important;
+}
+
+/* ============================================
+   ПАНЕЛЬ ИНСТРУМЕНТОВ — горизонтальная снизу
+   ============================================ */
+#панель-инструментов {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: auto !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    padding: 8px 12px !important;
+    background: rgba(0,0,0,0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-top: 1px solid rgba(255,255,255,0.07) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-radius: 12px 12px 0 0 !important;
+    z-index: 200 !important;
+    min-width: auto !important;
+    width: auto !important;
+    max-width: 90vw !important;
+    align-items: center !important;
+}
+
+#панель-инструментов button,
+#панель-инструментов > div {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
+/* Ползунок громкости в горизонтальной панели */
+#панель-инструментов input[type=range] {
+    width: 70px !important;
+}
+
+#кнопка-свернуть-панель {
+    display: none !important;
+}
+
+/* Скрываем кнопку свернуть — не нужна в горизонтальной панели */
+#панель-инструментов.свёрнута .панель-содержимое {
+    display: flex !important;
+}
+
+/* ============================================
+   ЭКРАН ЗАГРУЗКИ
+   ============================================ */
+#экран-загрузки {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease;
+}
+
+#экран-загрузки.активен {
+    display: flex;
+}
+
+#экран-загрузки.скрывается {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.загрузка-заголовок {
+    color: #e94560;
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px rgba(233,69,96,0.5);
+}
+
+.загрузка-бар-обёртка {
+    width: 300px;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.загрузка-бар {
+    height: 100%;
+    background: linear-gradient(90deg, #e94560, #8a2be2);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.загрузка-текст {
+    color: #555;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
